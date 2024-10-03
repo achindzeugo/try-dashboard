@@ -1,0 +1,135 @@
+
+
+	lien dotnet vs NextJs : https://www.youtube.com/watch?v=vVQ7nV2piVI
+Scaffold-DbContext "Server=localhost;Database=notifdb;Uid=keng;Pwd=zedjunior;" Pomelo.EntityFrameworkCore.MySql -OutputDir Models
+
+
+CREATE TABLE USERS (
+    User_ID INT PRIMARY KEY AUTO_INCREMENT,
+    AG VARCHAR(255),
+    nom VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    Role_ID INT,
+    FOREIGN KEY (Role_ID) REFERENCES ROLE(Role_ID)
+);
+
+CREATE TABLE ROLE (
+    Role_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Role_nom VARCHAR(255)
+);
+
+
+CREATE TABLE PERMISSION (
+    Permission_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Permission_nom VARCHAR(255)
+);
+
+
+CREATE TABLE ROLE_PERMIS (
+    Role_ID INT,
+    Permission_ID INT,
+    PRIMARY KEY (Role_ID, Permission_ID),
+    FOREIGN KEY (Role_ID) REFERENCES ROLE(Role_ID),
+    FOREIGN KEY (Permission_ID) REFERENCES PERMISSION(Permission_ID)
+);
+
+CREATE TABLE CRITICITE (
+    Criticite_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Criticite_nom VARCHAR(255)
+);
+
+
+CREATE TABLE ORIGINE (
+    Origine_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Origine_nom VARCHAR(255)
+);
+
+
+CREATE TABLE STATUT (
+    Statut_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Statut_nom VARCHAR(255)
+);
+
+
+CREATE TABLE INCIDENT (
+    Incident_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Description TEXT,
+    Destinataire_sup VARCHAR(255),
+    Origine_ID INT,
+    Criticite_ID INT,
+    Statut_ID INT,
+    Plan_ID INT,
+    FOREIGN KEY (Origine_ID) REFERENCES ORIGINE(Origine_ID),
+    FOREIGN KEY (Criticite_ID) REFERENCES CRITICITE(Criticite_ID),
+    FOREIGN KEY (Statut_ID) REFERENCES STATUT(Statut_ID),
+    FOREIGN KEY (Plan_ID) REFERENCES PLAN_DACTION(Plan_ID)
+);
+
+
+CREATE TABLE PLAN_DACTION (
+    Plan_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Plan_description TEXT,
+    Date_Previsionelle DATE,
+    Date_Reelle DATE
+);
+
+
+CREATE TABLE APPLICATIF (
+    App_ID INT PRIMARY KEY AUTO_INCREMENT,
+    App_nom VARCHAR(255)
+);
+
+CREATE TABLE APPLICATION_INCIDENT (
+    Incident_ID INT,
+    App_ID INT,
+    PRIMARY KEY (Incident_ID, App_ID),
+    FOREIGN KEY (Incident_ID) REFERENCES INCIDENT(Incident_ID),
+    FOREIGN KEY (App_ID) REFERENCES APPLICATIF(App_ID)
+);
+
+CREATE TABLE GROUPS (
+    Group_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Group_nom VARCHAR(255)
+);
+
+
+CREATE TABLE UTILISATEUR (
+    Utilisateur_ID INT PRIMARY KEY AUTO_INCREMENT,
+    nom VARCHAR(255),
+    email VARCHAR(255),
+    Service VARCHAR(255)
+);
+
+CREATE TABLE GROUP_UTILISATEUR (
+    Group_ID INT,
+    Utilisateur_ID INT,
+    PRIMARY KEY (Group_ID, Utilisateur_ID),
+    FOREIGN KEY (Group_ID) REFERENCES GROUPS(Group_ID),
+    FOREIGN KEY (Utilisateur_ID) REFERENCES UTILISATEUR(Utilisateur_ID)
+);
+
+CREATE TABLE APPLICATION_GROUP (
+    App_ID INT,
+    Group_ID INT,
+    PRIMARY KEY (App_ID, Group_ID),
+    FOREIGN KEY (App_ID) REFERENCES APPLICATIF(App_ID),
+    FOREIGN KEY (Group_ID) REFERENCES GROUPS(Group_ID)
+);
+
+
+
+CREATE TABLE USERS (
+    User_ID INT PRIMARY KEY AUTO_INCREMENT,
+    AG VARCHAR(255),
+    nom VARCHAR(255),
+    email VARCHAR(255),
+    password VARCHAR(255),
+    Role_ID INT,
+    FOREIGN KEY (Role_ID) REFERENCES ROLE(Role_ID)
+);
+MySQL said: Documentation
+
+
+
+
